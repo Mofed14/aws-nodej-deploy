@@ -1,0 +1,6 @@
+{
+  "paths": {
+    "@helpers": "dist/helpers",
+    "@modules": "dist/modules"
+  }
+}

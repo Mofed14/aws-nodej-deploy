@@ -1,0 +1,74 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint . --ext ts",
+    "build:incremental": "tsc",
+    "build:clean": "bash ./shell-scripts/build.clean.sh",
+    "start": "cross-env NODE_ENV=REMOTE_DEV nodemon --exec \"npm run build:incremental && node --inspect --loader ./loader.js --enable-source-maps dist/server.js\"",
+    "start-brk": "cross-env NODE_ENV=REMOTE_DEV nodemon --exec \"npm run build:incremental && node --inspect-brk --loader ./loader.js --enable-source-maps dist/server.js\"",
+    "test": "npm run build:incremental && cross-env NODE_ENV=TEST mocha --exit",
+    "test-brk": "cross-env NODE_ENV=TEST nodemon --exec \"npm run build:incremental node ./node_modules/mocha/bin/mocha --inspect-brk\"",
+    "tdd": "cross-env NODE_ENV=TEST nodemon --exec \"npm run build:incremental && node ./node_modules/mocha/bin/mocha --inspect\"",
+    "unitTest": "cross-env NODE_ENV=TEST nodemon --exec \"npm run build:incremental && node ./node_modules/mocha/bin/mocha -g ^Unit::\"",
+    "integrationTest": "cross-env NODE_ENV=TEST nodemon --exec \"npm run build:incremental && node ./node_modules/mocha/bin/mocha -g ^Integration::\" ",
+    "dev": "cross-env NODE_ENV=REMOTE_DEV nodemon --exec \"npm run build:incremental && node --inspect --loader ./loader.js --enable-source-maps dist/server.js\"",
+    "dev-brk": "cross-env NODE_ENV=REMOTE_DEV nodemon --exec \"npm run build:incremental && node --inspect-brk --loader ./loader.js --enable-source-maps dist/server.js\"",
+    "staging": "cross-env NODE_ENV=STAGING nodemon --exec \"npm run build:incremental && node --inspect --loader ./loader.js --enable-source-maps dist/server.js\"",
+    "prod": "rm -rf ./dist && cross-env NODE_ENV=production nodemon --exec \"npm run build:incremental && node --inspect --loader ./loader.js --enable-source-maps dist/server.js\"",
+    "prod-brk": "rm -rf ./dist && cross-env NODE_ENV=production nodemon --exec \"npm run build:incremental && node --inspect-brk --loader ./loader.js --enable-source-maps dist/server.js\"",
+    "reload:dev": "npm run build:clean && pm2 startOrReload pm2-development.json",
+    "reload:staging": "npm run build:clean && pm2 startOrReload pm2-staging.json",
+    "reload:prod": "npm run build:clean && pm2 startOrReload pm2-production.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/bluebird": "^3.5.42",
+    "@types/json-stringify-safe": "^5.0.3",
+    "@types/lodash": "^4.17.5",
+    "argon2": "^0.40.3",
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "joi": "^17.13.3",
+    "json-stringify-safe": "^5.0.1",
+    "lodash": "^4.17.21",
+    "moment-timezone": "^0.5.45",
+    "mongoose": "^8.4.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.14.2",
+    "nodemon": "^3.1.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "mocha": {
+    "spec": [
+      "!(node_modules)/**/*.test.js"
+    ],
+    "recursive": true,
+    "reporter": "min",
+    "sort": true,
+    "timeout": 10000,
+    "enable-source-maps": true,
+    "loader": "./loader.js"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "data/*",
+      "dist/*",
+      "temp-dist/*"
+    ],
+    "ext": "js,json,hbs,html,ts"
+  },
+  "volta": {
+    "node": "20.8.0"
+  }
+}
