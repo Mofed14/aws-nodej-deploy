@@ -11,6 +11,16 @@ const app = express();
 // app.use(express.json())
 init(app)
 
+app.get('/api/get/getUsers', (req,res)=> {
+  res.send({
+    user: {
+      name: "mofed", 
+      age: 26, 
+      contact: "01140839985",
+    }
+  })
+})
+
 process.on('unhandledRejection', (err)=> {
   console.log(err);
 })
