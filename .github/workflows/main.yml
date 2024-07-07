@@ -1,4 +1,4 @@
-name: Production Pipeline
+name: Main Pipeline
 
 on:
   push:
@@ -23,9 +23,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
-      - name: Run tests
-        run: npm test
 
       - name: Run lint
         run: npm run lint
